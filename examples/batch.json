@@ -1,0 +1,37 @@
+{
+  "title": "知识检索验收样例",
+  "settings": {
+    "k": 3
+  },
+  "rows": [
+    {
+      "id": "Q1",
+      "relevant": [
+        "P2",
+        "P4"
+      ],
+      "baseline": [
+        "P1",
+        "P2",
+        "P3"
+      ],
+      "candidate": [
+        "P2",
+        "P4",
+        "P1"
+      ]
+    },
+    {
+      "id": "Q2",
+      "relevant": [
+        "P3"
+      ],
+      "baseline": [
+        "P3"
+      ],
+      "candidate": [
+        "P1"
+      ]
+    }
+  ]
+}
