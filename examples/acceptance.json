@@ -1,0 +1,26 @@
+{
+  "title": "检索命中变化明细",
+  "settings": {
+    "k": 2
+  },
+  "rows": [
+    {
+      "id": "Q",
+      "relevant": [
+        "A",
+        "B",
+        "C"
+      ],
+      "baseline": [
+        "A",
+        "X",
+        "C"
+      ],
+      "candidate": [
+        "Y",
+        "B",
+        "A"
+      ]
+    }
+  ]
+}

@@ -30,13 +30,22 @@ final class Algorithm {
     unique(rows);
     int k = integer(cfg, "k", 1, 1000);
     var out = new ArrayList<>();
-    int reg = 0;
+    int reg = 0, losses = 0;
     double[] sums = new double[6];
     for (var r : rows) {
       var truth = Set.copyOf(strings(r, "relevant"));
       must(!truth.isEmpty(), "相关性标注不能为空");
-      var a = score(strings(r, "baseline"), truth, k);
-      var b = score(strings(r, "candidate"), truth, k);
+      var base = strings(r, "baseline");
+      var candidate = strings(r, "candidate");
+      var a = score(base, truth, k);
+      var b = score(candidate, truth, k);
+      var baseHits = new LinkedHashSet<>(base.subList(0, Math.min(k,base.size())));
+      baseHits.retainAll(truth);
+      var candidateHits = new LinkedHashSet<>(candidate.subList(0, Math.min(k,candidate.size())));
+      candidateHits.retainAll(truth);
+      var lost = baseHits.stream().filter(id -> !candidateHits.contains(id)).toList();
+      var gained = candidateHits.stream().filter(id -> !baseHits.contains(id)).toList();
+      if (!lost.isEmpty()) losses++;
       boolean down = b[2] + 1e-10 < a[2];
       if (down) reg++;
       for (int i = 0; i < 3; i++) {
@@ -60,7 +69,7 @@ final class Algorithm {
               "candidateNDCG",
               b[2],
               "regression",
-              down));
+              down, "lostRelevant", lost, "gainedRelevant", gained));
     }
     var metrics = new LinkedHashMap<String, Object>();
     int idx = 0;
@@ -73,6 +82,7 @@ final class Algorithm {
             "candidateMRR",
             "candidateNDCG")) metrics.put(key, sums[idx++] / rows.size());
     metrics.put("regressions", reg);
+    metrics.put("queriesWithLostHits", losses);
     return result(metrics, out);
   }
 }

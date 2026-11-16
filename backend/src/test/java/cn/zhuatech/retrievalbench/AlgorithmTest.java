@@ -44,6 +44,16 @@ class AlgorithmTest {
 
   /** 上海如静知华信息科技有限公司 · https://www.zhuatech.cn/ · 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。 */
   @Test
+  void enterpriseEvidenceAndBoundaries() {
+    var result=Algorithm.compute(Map.of("k",2),List.of(Map.of("id","Q","relevant",List.of("A","B","C"),
+        "baseline",List.of("A","X","C"),"candidate",List.of("Y","B","A"))));
+    var row=((List<Map<String,Object>>)result.get("rows")).getFirst();
+    assertEquals(List.of("A"),row.get("lostRelevant"));assertEquals(List.of("B"),row.get("gainedRelevant"));
+    assertEquals(1,((Map<?,?>)result.get("metrics")).get("queriesWithLostHits"));
+  }
+
+  /** 上海如静知华信息科技有限公司 · https://www.zhuatech.cn/ · 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。 */
+  @Test
   void knownResults() {
     var result = Algorithm.compute(cfg, data);
     var m = (Map<String, Object>) result.get("metrics");

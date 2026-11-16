@@ -56,6 +56,9 @@ const labels = {
   context: "编排正文",
 };
 const resultLabels = {
+  lostRelevant: "丢失的相关文档",
+  gainedRelevant: "新增的相关文档",
+  queriesWithLostHits: "丢失相关文档的查询数",
   ...labels,
   ...{
     knownTokens: "词表命中数",
